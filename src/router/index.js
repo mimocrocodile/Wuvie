@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MoviePage from "../views/MoviePage.vue"
+import PersonalPage from "../views/PersonalPage.vue"
 import ContactView from "../views/ContactView.vue"
 const routes = [
   {
@@ -26,6 +27,12 @@ const routes = [
     name: 'mpage',
     props: true,
     component: MoviePage
+  },
+  {
+    path: '/personal-page/:id',
+    name: 'personalpage',
+    props: true,
+    component: PersonalPage
   }
 ]
 

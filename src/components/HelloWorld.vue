@@ -47,6 +47,10 @@ export default {
   margin: 0 auto;
   padding: 80px 0;
 }
+a{
+  text-decoration: none;
+  color: whitesmoke;
+}
 .card{
   display: flex;
   flex-direction: column;

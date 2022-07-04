@@ -10,8 +10,25 @@
             <!-- <p>{{getData}}</p> -->
             <p>{{movie.title}}</p>
             <p>{{movie.overview}}</p>
+            <p>{{movie.homepage}}</p>
+            <div class="genres" >
+                <p v-for="genre in movie.genres"> {{genre.name}}</p>
+            </div>
+            <div>
+                <p>{{movie.runtime}} - {{calcTime(movie.runtime)}}</p>
+            </div>
+            <div v-for="img in movie.production_companies">
+                <img class="studio" v-if="img.logo_path"  :src="moviePoster+img.logo_path" alt="">
+            </div>
+            
             <!-- <p>{{movieVideo}}</p> -->
-            <iframe :src="'http://www.youtube.com/embed/'+movieFirst " frameborder="0"></iframe>
+            <div v-for="item, index in movieVideo.results" :key="index">
+                <iframe v-if="index <= 4"  :src="'http://www.youtube.com/embed/'+item.key " frameborder="0"></iframe>
+            </div>
+            
+        </div>
+        <div class="cast">
+            <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name in cast">{{name.name}}</router-link>
         </div>
     </div>
 </template>
@@ -25,11 +42,16 @@ export default {
       id: String,
      
     },
+    methods:{
+        calcTime: function(time){return Math.floor(time/60)}
+    },
     data() {
         return{
         getData: "https://api.themoviedb.org/3/movie/"+this.id+"?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US",
         getVideo: "https://api.themoviedb.org/3/movie/"+this.id+"/videos?api_key=788d8d340536c97e76b580d97ee6c8cc",
         movie: Object,
+        cast: Object,
+        crew: Object,
         movieVideo: String,
         moviePoster: "https://image.tmdb.org/t/p/original/",
         movieFirst: String,
@@ -39,7 +61,24 @@ export default {
   
     async mounted(){
       // this.apiArr = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US")
-    
+    console.log()
+    this.cast = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
+    .then((info)=>{
+        console.log(info)
+        return info.data.cast
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+
+    this.crew = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
+    .then((info)=>{
+        return info.data.crew
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+
      this.movie = await axios.get(this.getData)
     .then((info)=>{
         console.log(info)
@@ -58,8 +97,8 @@ export default {
           console.log(error)
           return error
     })
-    this.movieFirst = this.movieVideo.results[0].key
-    console.log(this.movieFirst)
+    
+    console.log(this.cast)
   }
   
   
@@ -67,7 +106,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style >
     .container{
         display: flex;
         width: 1280px;
@@ -78,16 +117,36 @@ export default {
         height: 400px;
         width: 700px;
     }
+    .studio{
+        width: 400px;
+        height: 100px;
+    }
+    .genres{
+        display: flex;
+        gap: 15px;
+    }
+    .genres p {
+        display: inline-flex;
+    }
     .poster{
         display: flex;
         flex: 1 1 25%;
+        max-height: 500px;
     }
     .poster img{
         width: 100%;
     }
+    .cast{
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 20%;
+    }
+    .cast p{
+        font-size: 14px;
+    }
     .info{
         display: flex;
         flex-direction: column;
-        flex: 1 1 70%;
+        flex: 1 1 50%;
     }
 </style>
