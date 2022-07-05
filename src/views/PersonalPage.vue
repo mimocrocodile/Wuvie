@@ -1,7 +1,7 @@
 <template>
 <div>
      <div class="container">
-
+     
         <div class="poster">
             <img :src="personPoster+person.profile_path" alt="">
         </div>
@@ -15,6 +15,11 @@
             <!-- <p>{{movieVideo}}</p> -->
 
 
+        </div>
+        <div class="movie-list">
+            <div v-for="item, id in this.relatedMovies" :key="id">
+                <router-link :to="{name: 'mpage', params: {id: item.id} }">{{id}} {{item.title}}</router-link>
+            </div>
         </div>
     </div>
 </div>
@@ -31,7 +36,7 @@ import axios from 'axios'
         data() {
             return{
                 getPerson: "https://api.themoviedb.org/3/person/"+this.id+"?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US",
-                getRelatedMovies: "https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=50",
+                getRelatedMovies: "https://api.themoviedb.org/3/discover/movie?api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"",
                 // getRelatedMovies: "https://api.themoviedb.org/3/person/"+this.id+"/movie_credits?api_key=788d8d340536c97e76b580d97ee6c8cc",
                 person: Object,
                 relatedMovies: Object,
@@ -45,7 +50,7 @@ import axios from 'axios'
                 // while(this.page<this.totalPages)
                 for(let i = 2; i<=this.totalPages; i++){
 
-                    const response = await axios.get("https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=50&page="+i)
+                    const response = await axios.get("https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=1000&page="+i)
                     .then(info=>{
                         console.log(info)
                         return info.data.results

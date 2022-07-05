@@ -20,12 +20,12 @@
             <div v-for="img, index in movie.production_companies" :key="index">
                 <img class="studio" v-if="img.logo_path"  :src="moviePoster+img.logo_path" alt="">
             </div>
-
+ <p>{{movie.release_date}}</p>
             <!-- <p>{{movieVideo}}</p> -->
             <div v-for="item, index in movieVideo.results" :key="index">
                 <iframe v-if="index <= 4"  :src="'http://www.youtube.com/embed/'+item.key " frameborder="0"></iframe>
             </div>
-
+           
         </div>
         <div class="cast">
             <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name, index in cast" :key="index">{{name.name}}</router-link>
@@ -108,10 +108,8 @@ export default {
 
 <style >
     .container{
-        display: flex;
         width: 1280px;
         margin: 0 auto;
-        gap: 30px;
     }
     iframe{
         height: 400px;
