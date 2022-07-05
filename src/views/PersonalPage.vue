@@ -35,7 +35,28 @@ import axios from 'axios'
                 // getRelatedMovies: "https://api.themoviedb.org/3/person/"+this.id+"/movie_credits?api_key=788d8d340536c97e76b580d97ee6c8cc",
                 person: Object,
                 relatedMovies: Object,
+                totalPages: 0,
+                page: 0,
                 personPoster: "https://image.tmdb.org/t/p/original/",
+            }
+        },
+        methods:{
+            getBest: async function(){
+                // while(this.page<this.totalPages)
+                for(let i = 2; i<=this.totalPages; i++){
+
+                    const response = await axios.get("https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=50&page="+i)
+                    .then(info=>{
+                        console.log(info)
+                        return info.data.results
+                    })
+                    .catch(error=>{
+                        console.log(error)
+                    })
+                    this.relatedMovies = [...this.relatedMovies, ...response]
+
+                }
+                   console.log(this.relatedMovies)
             }
         },
         async mounted(){
@@ -48,13 +69,24 @@ import axios from 'axios'
                 console.log(error)
             })
 
-            this.relatedMovies = await axios.get(this.getRelatedMovies)
+            this.totalPages = await axios.get(this.getRelatedMovies)
             .then(info=>{
-                console.log(info)
+                return info.data.total_pages
             })
             .catch(error=>{
                 console.log(error)
             })
+
+
+            this.relatedMovies = await axios.get("https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=50&page="+1)
+            .then(info=>{
+                console.log(info)
+                return info.data.results
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+               this.getBest()
         }
     }
 </script>
