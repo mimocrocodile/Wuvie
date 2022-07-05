@@ -1,7 +1,7 @@
 <template>
 <h1>ASDFG</h1>
     <div class="container">
-        
+
         <div class="poster">
             <img :src="moviePoster + movie.poster_path" alt="">
         </div>
@@ -12,23 +12,23 @@
             <p>{{movie.overview}}</p>
             <p>{{movie.homepage}}</p>
             <div class="genres" >
-                <p v-for="genre in movie.genres"> {{genre.name}}</p>
+                <p v-for="genre, index in movie.genres" :key="index"> {{genre.name}}</p>
             </div>
             <div>
                 <p>{{movie.runtime}} - {{calcTime(movie.runtime)}}</p>
             </div>
-            <div v-for="img in movie.production_companies">
+            <div v-for="img, index in movie.production_companies" :key="index">
                 <img class="studio" v-if="img.logo_path"  :src="moviePoster+img.logo_path" alt="">
             </div>
-            
+
             <!-- <p>{{movieVideo}}</p> -->
             <div v-for="item, index in movieVideo.results" :key="index">
                 <iframe v-if="index <= 4"  :src="'http://www.youtube.com/embed/'+item.key " frameborder="0"></iframe>
             </div>
-            
+
         </div>
         <div class="cast">
-            <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name in cast">{{name.name}}</router-link>
+            <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name, index in cast" :key="index">{{name.name}}</router-link>
         </div>
     </div>
 </template>
@@ -40,7 +40,7 @@ export default {
     name: "mpage",
       props:{
       id: String,
-     
+
     },
     methods:{
         calcTime: function(time){return Math.floor(time/60)}
@@ -56,9 +56,9 @@ export default {
         moviePoster: "https://image.tmdb.org/t/p/original/",
         movieFirst: String,
         }
-       
+
     },
-  
+
     async mounted(){
       // this.apiArr = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US")
     console.log()
@@ -97,11 +97,11 @@ export default {
           console.log(error)
           return error
     })
-    
+
     console.log(this.cast)
   }
-  
-  
+
+
 }
 
 </script>
@@ -131,7 +131,7 @@ export default {
     .poster{
         display: flex;
         flex: 1 1 25%;
-        max-height: 500px;
+        max-height: 600px;
     }
     .poster img{
         width: 100%;
