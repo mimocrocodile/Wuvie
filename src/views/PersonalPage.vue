@@ -1,7 +1,7 @@
 <template>
 <div>
      <div class="container">
-     
+
         <div class="poster">
             <img :src="personPoster+person.profile_path" alt="">
         </div>
@@ -83,7 +83,7 @@ import axios from 'axios'
             })
 
 
-            this.relatedMovies = await axios.get("https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=50&page="+1)
+            this.relatedMovies = await axios.get("https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&with_people="+this.id+"&vote_count.gte=1000&page="+1)
             .then(info=>{
                 console.log(info)
                 return info.data.results

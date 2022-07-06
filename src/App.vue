@@ -4,8 +4,32 @@
     <router-link to="/about">About</router-link> |
     <router-link to="/contact">Contact</router-link>
   </nav>
+  <form action="/search" @submit.prevent >
+    <input type="text" class="search" v-model="searchRequest" v-on:keyup.enter="show" >
+  </form>
   <router-view/>
 </template>
+
+
+<script>
+
+export default({
+
+ data(){
+    return{
+      searchRequest: ''
+    }
+  },
+  methods:{
+    show: function(){
+      this.$store.commit('ChangeSearch', this.searchRequest)
+      this.$router.push('/search')
+      // console.log(this.searchRequest)
+    }
+  }
+})
+</script>
+
 
 <style lang="scss">
 #app {

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import MoviePage from "../views/MoviePage.vue"
 import PersonalPage from "../views/PersonalPage.vue"
 import ContactView from "../views/ContactView.vue"
+import Search from "../views/Search.vue"
 const routes = [
   {
     path: '/',
@@ -33,6 +34,12 @@ const routes = [
     name: 'personalpage',
     props: true,
     component: PersonalPage
+  },
+  {
+    path: '/search',
+    name: 'searchPage',
+    props: true,
+    component: Search
   }
 ]
 
