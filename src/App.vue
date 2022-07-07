@@ -17,14 +17,16 @@ export default({
 
  data(){
     return{
-      searchRequest: ''
+      searchRequest: '',
+      clickCount: 0
     }
   },
   methods:{
     show: function(){
+      this.clickCount++
       this.$store.commit('ChangeSearch', this.searchRequest)
-      this.$router.push('/search')
-      // console.log(this.searchRequest)
+      this.$router.push({name: 'searchPage', params: {name: this.searchRequest, flag: this.clickCount}})
+      console.log(this.clickCount)
     }
   }
 })

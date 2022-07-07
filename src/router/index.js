@@ -36,7 +36,7 @@ const routes = [
     component: PersonalPage
   },
   {
-    path: '/search',
+    path: '/search/:name',
     name: 'searchPage',
     props: true,
     component: Search
