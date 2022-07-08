@@ -9,10 +9,6 @@
             <p>{{person.name}}</p>
             <p>{{person.birthday}}</p>
             <p>{{person.biography}}</p>
-            <!-- <p>{{getData}}</p> -->
-
-
-            <!-- <p>{{movieVideo}}</p> -->
 
 
         </div>

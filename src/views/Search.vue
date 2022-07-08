@@ -1,10 +1,13 @@
 <template >
     <h1>joj</h1>
     <h1>{{$store.state.searchString}}</h1>
+    <div :key="changer">
     <div class="search-result" v-for="item, id in searchResult" :key="id">
         <img :src="apiImg+item.poster_path" class="search-img" alt="">
-        <router-link :to="{name: 'mpage', params: {id: item.id}}" class="search-title">{{item.title}}</router-link>
+        <router-link :to="{name: 'mpage', params: {id: item.id}}" class="search-title">{{id}} {{item.title}}</router-link>
     </div>
+    </div>
+
     <div ref="observer" class="observer">Observer</div>
 </template>
 
@@ -17,26 +20,18 @@ export default{
             searchResult: [],
             totalPages: 0,
             relatedMovies: Object,
-        
             apiImg: "https://image.tmdb.org/t/p/original/",
             page: 0,
-            changer: this.flag
+            changer:0
         }
-
     },
     props:{
         flag: String,
         name: String,
     },
     methods:{
-         getBest: async function(start){
-                // while(this.page<this.totalPages)
+         getBest: async function(){
                     this.page++
-                    if(start){
-                        this.page = 1
-                        this.searchResult = []
-                        console.log('pidor')
-                    }
                     const response = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+this.page)
                     .then(info=>{
                         console.log(info)
@@ -47,26 +42,28 @@ export default{
                     })
                     console.log("response",response)
                     this.searchResult = [...this.searchResult, ...response]
-
-
-
-                //    this.searchResult.sort((a,b) => a.vote_average.localeCompare(b.vote_average))
                    console.log("result",this.searchResult)
-            }
+            },
+        refresh: function (){
+            console.log("HELOOO")
+            this.changer += 1
+            this.searchResult = []
+            this.page = 0
+        }
     },
     watch:{
         flag: {
             handler:function(){
                 console.log("the best")
-                this.getBest(1)
+                this.refresh()
             },
             deep: true
-            
-            } 
-    },  
-    async mounted(){
+
+            }
+    },
+    mounted(){
         console.log(this.$store.state.searchString)
-        this.getBest()
+        // this.getBest()
         // this.searchResult = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+1)
         // .then(info=>{
         //     this.totalPages = info.data.total_pages
@@ -81,9 +78,7 @@ export default{
         threshold: 1.0
         }
         const callback = (entries, observer) => {
-        console.log(entries)
         if(entries[0].isIntersecting){
-            console.log("FASDA")
             this.getBest()
         }
         };

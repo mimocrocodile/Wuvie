@@ -59,9 +59,10 @@ export default {
     const callback = (entries, observer) => {
        console.log(entries)
       if(entries[0].isIntersecting){
-        console.log("FASDA")
         this.getNewPages()
       }
+
+
     };
     const observer = new IntersectionObserver(callback, options);
     observer.observe(this.$refs.observer)
