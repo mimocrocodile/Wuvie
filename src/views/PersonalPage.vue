@@ -52,7 +52,6 @@ import axios from 'axios'
                         return info.data.results
                     })
                     .catch(error=>{
-                        console.log(error)
                     })
                     this.relatedMovies = [...this.relatedMovies, ...response]
 
