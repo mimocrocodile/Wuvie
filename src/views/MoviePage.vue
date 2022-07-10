@@ -20,11 +20,12 @@
             <div v-for="img, index in movie.production_companies" :key="index">
                 <img class="studio" v-if="img.logo_path"  :src="moviePoster+img.logo_path" alt="">
             </div>
- <p>{{movie.release_date}}</p>
+            <p>{{movie.release_date}}</p>
             <!-- <p>{{movieVideo}}</p> -->
-            <div v-for="item, index in movieVideo.results" :key="index">
-                <iframe v-if="index <= 4"  :src="'http://www.youtube.com/embed/'+item.key " frameborder="0"></iframe>
-            </div>
+            <router-link :to="{name: 'TrailerPage', params: {ginfo: id}}">Trailers</router-link>
+            <!-- <div v-for="item, index in movieVideo.results" :key="index">
+                <iframe v-if="index <= 4"  :src="'http://www.youtube.com/embed/'+item.key " frameborder="0" allowfullscreen></iframe>
+            </div> -->
 
         </div>
         <div class="cast">
@@ -48,7 +49,7 @@ export default {
     data() {
         return{
         getData: "https://api.themoviedb.org/3/movie/"+this.id+"?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US",
-        getVideo: "https://api.themoviedb.org/3/movie/"+this.id+"/videos?api_key=788d8d340536c97e76b580d97ee6c8cc",
+       
         movie: Object,
         cast: Object,
         crew: Object,
@@ -61,7 +62,6 @@ export default {
 
     async mounted(){
       // this.apiArr = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US")
-    console.log()
     this.cast = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
     .then((info)=>{
         console.log(info)
@@ -88,15 +88,7 @@ export default {
           console.log(error)
           return error
     })
-     this.movieVideo = await axios.get(this.getVideo)
-    .then((info)=>{
-        console.log(info)
-      return info.data
-     })
-     .catch((error)=>{
-          console.log(error)
-          return error
-    })
+  
 
     console.log(this.cast)
   }

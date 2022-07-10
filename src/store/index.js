@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import createdPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: ()=> {
@@ -6,6 +7,7 @@ export default createStore({
     searchString: ""
   }
   },
+  plugins:[createdPersistedState()],
   getters: {
     GetSearch(state){
       return state.searchString

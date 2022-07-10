@@ -4,6 +4,7 @@ import MoviePage from "../views/MoviePage.vue"
 import PersonalPage from "../views/PersonalPage.vue"
 import ContactView from "../views/ContactView.vue"
 import Search from "../views/Search.vue"
+import Trailer from "../views/Trailers.vue"
 const routes = [
   {
     path: '/',
@@ -40,6 +41,12 @@ const routes = [
     name: 'searchPage',
     props: true,
     component: Search
+  },
+  {
+    path:'/trailers/:ginfo',
+    name: 'TrailerPage',
+    props: true,
+    component: Trailer
   }
 ]
 

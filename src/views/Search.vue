@@ -49,6 +49,7 @@ export default{
             this.changer += 1
             this.searchResult = []
             this.page = 0
+            this.getBest()
         }
     },
     watch:{
@@ -63,16 +64,6 @@ export default{
     },
     mounted(){
         console.log(this.$store.state.searchString)
-        // this.getBest()
-        // this.searchResult = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+1)
-        // .then(info=>{
-        //     this.totalPages = info.data.total_pages
-        //     console.log(this.totalPages)
-        //     return info.data.results
-        // })
-        // .catch(error =>{
-        //     console.log(error)
-        // })
         const options = {
         rootMargin: '0px',
         threshold: 1.0
@@ -85,6 +76,17 @@ export default{
         const observer = new IntersectionObserver(callback, options);
         observer.observe(this.$refs.observer)
     }
+    
+   // this.getBest()
+        // this.searchResult = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+1)
+        // .then(info=>{
+        //     this.totalPages = info.data.total_pages
+        //     console.log(this.totalPages)
+        //     return info.data.results
+        // })
+        // .catch(error =>{
+        //     console.log(error)
+        // })
 }
 </script>
 
@@ -98,3 +100,6 @@ export default{
         height: 100px;
     }
 </style>
+
+
+

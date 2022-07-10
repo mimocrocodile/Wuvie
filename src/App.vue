@@ -17,7 +17,7 @@ export default({
 
  data(){
     return{
-      searchRequest: '',
+      searchRequest: this.$store.state.searchString,
       clickCount: 0
     }
   },
