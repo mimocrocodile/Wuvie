@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <HelloWorld :api="apiArr" :apiImg="apiImg" />
-    <div ref="observer" class="observer">Observer</div>
+    <div ref="observer" class="observer"></div>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   name: 'HomeView',
 
   components: {
-    HelloWorld
+    HelloWorld,
   },
   data(){
     return{

@@ -4,7 +4,9 @@
 
    <div class="card" v-for="item in api" :key="item.id">
     <div class="card__img">
-        <img :src="apiImg+item.poster_path" alt="">
+      <router-link :to="{name: 'mpage', params: {id: item.id, moviePoster: apiImg}}" >
+          <img :src="apiImg+item.poster_path" alt="">
+      </router-link>
     </div>
     <div class="card__bottom">
        <router-link :to="{name: 'mpage', params: {id: item.id, moviePoster: apiImg}}" >{{item.title}}</router-link>
@@ -60,7 +62,7 @@ a{
   transition: transform .3s ease-in-out;
 }
 .card:hover{
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .card__img{
   width: 100%;
@@ -89,8 +91,17 @@ a{
 .card__bottom{
   display: flex;
   align-items: center;
-  padding: 30px;
+  padding: 20px 30px;
   gap: 20px;
   justify-content: space-between;
+}
+
+
+</style>
+<style>
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 </style>

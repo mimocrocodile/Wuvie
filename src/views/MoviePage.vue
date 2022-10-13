@@ -1,5 +1,5 @@
 <template>
-<h1>ASDFG</h1>
+
     <div class="container">
 
         <div class="poster">
@@ -8,19 +8,20 @@
         <div class="info">
             <!-- <p>{{getData}}</p> -->
             <!-- <p>{{getData}}</p> -->
-            <p>{{movie.title}}</p>
+            <h1>{{movie.title}}</h1>
+            <p>{{movie.release_date}}</p>
             <p>{{movie.overview}}</p>
-            <p>{{movie.homepage}}</p>
+            <!-- <p>{{movie.homepage}}</p> -->
             <div class="genres" >
                 <p v-for="genre, index in movie.genres" :key="index"> {{genre.name}}</p>
             </div>
             <div>
-                <p>{{movie.runtime}} - {{calcTime(movie.runtime)}}</p>
+                <p>{{movie.runtime}} minutes</p>
             </div>
             <div v-for="img, index in movie.production_companies" :key="index">
                 <img class="studio" v-if="img.logo_path"  :src="moviePoster+img.logo_path" alt="">
             </div>
-            <p>{{movie.release_date}}</p>
+
             <!-- <p>{{movieVideo}}</p> -->
             <router-link :to="{name: 'TrailerPage', params: {ginfo: id}}">Trailers</router-link>
             <!-- <div v-for="item, index in movieVideo.results" :key="index">
@@ -29,7 +30,7 @@
 
         </div>
         <div class="cast">
-            <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name, index in cast" :key="index">{{name.name}}</router-link>
+            <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name, index in cast"  :key="index"><span v-if="index<20">{{name.name}}</span></router-link>
         </div>
     </div>
 </template>
@@ -49,7 +50,7 @@ export default {
     data() {
         return{
         getData: "https://api.themoviedb.org/3/movie/"+this.id+"?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US",
-       
+
         movie: Object,
         cast: Object,
         crew: Object,
@@ -88,7 +89,7 @@ export default {
           console.log(error)
           return error
     })
-  
+
 
     console.log(this.cast)
   }
@@ -100,10 +101,11 @@ export default {
 
 <style >
     .container{
-        width: 1280px;
+        width: 1400px;
         margin: 0 auto;
         display: flex;
         gap: 30px;
+        padding-top: 150px;
     }
     iframe{
         height: 400px;
@@ -116,13 +118,15 @@ export default {
     .genres{
         display: flex;
         gap: 15px;
+        justify-content: center;
     }
     .genres p {
         display: inline-flex;
     }
     .poster{
         display: flex;
-        flex: 1 1 25%;
+        /* flex: 1 1 25%; */
+        max-width: 30%;
         max-height: 600px;
     }
     .poster img{
@@ -132,6 +136,7 @@ export default {
         display: flex;
         flex-direction: column;
         flex: 1 1 20%;
+        gap: 5px;
     }
     .cast p{
         font-size: 14px;
@@ -140,5 +145,6 @@ export default {
         display: flex;
         flex-direction: column;
         flex: 1 1 50%;
+        gap: 30px;
     }
 </style>
