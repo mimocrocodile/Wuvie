@@ -1,14 +1,22 @@
 <template >
-    <h1>joj</h1>
-    <h1>{{$store.state.searchString}}</h1>
-    <div :key="changer">
-    <div class="search-result" v-for="item, id in searchResult" :key="id">
-        <img :src="apiImg+item.poster_path" class="search-img" alt="">
-        <router-link :to="{name: 'mpage', params: {id: item.id}}" class="search-title">{{id}} {{item.title}}</router-link>
-    </div>
-    </div>
+    <div class="container">
+        <h1>Результаты поиска по запросу {{$store.state.searchString}}</h1>
+        <div :key="changer">
+        <div class="search">
+            <div class="search-result" v-for="item, id in searchResult" :key="id">
+                <img :src="apiImg+item.poster_path" class="search-img" alt="">
+                <div class="search-info">
+                    <router-link :to="{name: 'mpage', params: {id: item.id}}" class="search-title">{{id}} {{item.title}}</router-link>
+                    <p>{{item.overview}}</p>
+                </div>
 
-    <div ref="observer" class="observer">Observer</div>
+            </div>
+        </div>
+
+        </div>
+
+        <div ref="observer" class="observer"></div>
+    </div>
 </template>
 
 <script>
@@ -31,18 +39,19 @@ export default{
     },
     methods:{
          getBest: async function(){
-                    this.page++
-                    const response = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+this.page)
-                    .then(info=>{
-                        console.log(info)
-                        return info.data.results
-                    })
-                    .catch(error=>{
-                        console.log(error)
-                    })
-                    console.log("response",response)
-                    this.searchResult = [...this.searchResult, ...response]
-                   console.log("result",this.searchResult)
+            this.page++
+            const response = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+this.page)
+            .then(info=>{
+                console.log(info)
+                return info.data.results
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+
+            console.log("response",response)
+            this.searchResult = [...this.searchResult, ...response]
+            console.log("result",this.searchResult)
             },
         refresh: function (){
             console.log("HELOOO")
@@ -76,7 +85,7 @@ export default{
         const observer = new IntersectionObserver(callback, options);
         observer.observe(this.$refs.observer)
     }
-    
+
    // this.getBest()
         // this.searchResult = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+1)
         // .then(info=>{
@@ -91,13 +100,40 @@ export default{
 </script>
 
 <style scoped>
+    .container{
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+    .search-title{
+        font-size: 40px;
+        line-height: 48px;
+    }
+    .search-title + p{
+        font-size: 30px;
+        line-height: 38px;
+        margin-top: 30px;
+    }
+    .search{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .search-title{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .search-result{
         display: flex;
         gap: 40px;
     }
     .search-img{
-        width: 50px;
-        height: 100px;
+        width: 300px;
+        height: auto;
     }
 </style>
 
