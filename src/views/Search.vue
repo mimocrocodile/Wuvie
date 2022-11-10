@@ -3,7 +3,7 @@
         <h1>Результаты поиска по запросу {{$store.state.searchString}}</h1>
         <div :key="changer">
         <div class="search">
-            <div class="search-result" v-for="item, id in searchResult" :key="id">
+            <div class="search-result" v-for="item, id in listMovies" :key="id">
                 <img :src="apiImg+item.poster_path" class="search-img" alt="">
                 <div class="search-info">
                     <router-link :to="{name: 'mpage', params: {id: item.id}}" class="search-title">{{id}} {{item.title}}</router-link>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import {mapActions} from 'vuex'
 export default{
 
     data(){
@@ -30,6 +30,7 @@ export default{
             relatedMovies: Object,
             apiImg: "https://image.tmdb.org/t/p/original/",
             page: 0,
+            inputString: "",
             changer:0
         }
     },
@@ -38,40 +39,33 @@ export default{
         name: String,
     },
     methods:{
-         getBest: async function(){
-            this.page++
-            const response = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+this.page)
-            .then(info=>{
-                console.log(info)
-                return info.data.results
-            })
-            .catch(error=>{
-                console.log(error)
-            })
+        //  getBest: async function(){
+        //     this.page++
+        //     this.searchResult = [...this.searchResult, ...response]
+        //     },
+        // refresh: function (){
+        //     this.changer += 1
+        //     this.searchResult = []
+        //     this.page = 0
+        //     this.getBest()
+        // },
+        ...mapActions(["fetchMovies"])
 
-            console.log("response",response)
-            this.searchResult = [...this.searchResult, ...response]
-            console.log("result",this.searchResult)
-            },
-        refresh: function (){
-            console.log("HELOOO")
-            this.changer += 1
-            this.searchResult = []
-            this.page = 0
-            this.getBest()
-        }
     },
     watch:{
         flag: {
             handler:function(){
-                console.log("the best")
-                this.refresh()
+                // this.refresh()
             },
             deep: true
-
             }
     },
-    mounted(){
+    computed:{
+        listMovies(){
+            return this.$store.getters.getMovies;
+        }
+    },
+    async mounted(){
         console.log(this.$store.state.searchString)
         const options = {
         rootMargin: '0px',
@@ -79,23 +73,15 @@ export default{
         }
         const callback = (entries, observer) => {
         if(entries[0].isIntersecting){
-            this.getBest()
-        }
+            this.page++
+            console.log(this.page)
+            this.fetchMovies(this.name, this.page)
+}
         };
+
         const observer = new IntersectionObserver(callback, options);
         observer.observe(this.$refs.observer)
     }
-
-   // this.getBest()
-        // this.searchResult = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+this.$store.state.searchString+"&page="+1)
-        // .then(info=>{
-        //     this.totalPages = info.data.total_pages
-        //     console.log(this.totalPages)
-        //     return info.data.results
-        // })
-        // .catch(error =>{
-        //     console.log(error)
-        // })
 }
 </script>
 

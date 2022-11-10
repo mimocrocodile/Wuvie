@@ -6,12 +6,9 @@
             <img :src="moviePoster + movie.poster_path" alt="">
         </div>
         <div class="info">
-            <!-- <p>{{getData}}</p> -->
-            <!-- <p>{{getData}}</p> -->
             <h1>{{movie.title}}</h1>
             <p>{{movie.release_date}}</p>
             <p>{{movie.overview}}</p>
-            <!-- <p>{{movie.homepage}}</p> -->
             <div class="genres" >
                 <p v-for="genre, index in movie.genres" :key="index"> {{genre.name}}</p>
             </div>
@@ -21,16 +18,14 @@
             <div v-for="img, index in movie.production_companies" :key="index">
                 <img class="studio" v-if="img.logo_path"  :src="moviePoster+img.logo_path" alt="">
             </div>
-
-            <!-- <p>{{movieVideo}}</p> -->
             <router-link :to="{name: 'TrailerPage', params: {ginfo: id}}">Trailers</router-link>
-            <!-- <div v-for="item, index in movieVideo.results" :key="index">
-                <iframe v-if="index <= 4"  :src="'http://www.youtube.com/embed/'+item.key " frameborder="0" allowfullscreen></iframe>
-            </div> -->
 
         </div>
         <div class="cast">
-            <router-link :to="{name: 'personalpage', params: {id: name.id}}" v-for="name, index in cast"  :key="index"><span v-if="index<20">{{name.name}}</span></router-link>
+            <div v-for="name, index in cast"  :key="index">
+                <router-link :to="{name: 'personalpage', params: {id: name.id}}" ><span >{{name.name}}</span></router-link>
+            </div>
+
         </div>
     </div>
 </template>
@@ -62,7 +57,6 @@ export default {
     },
 
     async mounted(){
-      // this.apiArr = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US")
     this.cast = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
     .then((info)=>{
         console.log(info)
@@ -71,7 +65,7 @@ export default {
     .catch((error)=>{
         console.log(error)
     })
-
+    this.cast = this.cast.splice(0, 20)
     this.crew = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
     .then((info)=>{
         return info.data.crew
@@ -90,8 +84,6 @@ export default {
           return error
     })
 
-
-    console.log(this.cast)
   }
 
 
@@ -125,7 +117,6 @@ export default {
     }
     .poster{
         display: flex;
-        /* flex: 1 1 25%; */
         max-width: 30%;
         max-height: 600px;
     }

@@ -19,7 +19,7 @@
 
 
 <script>
-
+import {mapActions} from 'vuex'
 export default({
 
  data(){
@@ -29,9 +29,13 @@ export default({
     }
   },
   methods:{
+    ...mapActions(["fetchMovies"]),
+
     show: function(){
+      this.$store.commit('clearSearch')
+      this.fetchMovies(this.searchRequest, 1)
       this.clickCount++
-      this.$store.commit('ChangeSearch', this.searchRequest)
+      // this.$store.commit('ChangeSearch', this.searchRequest)
       this.$router.push({name: 'searchPage', params: {name: this.searchRequest, flag: this.clickCount}})
       console.log(this.clickCount)
     }
