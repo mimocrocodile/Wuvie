@@ -32,12 +32,13 @@ export default {
       .then((info)=>{
           this.totalPages = info.data.total_pages
           this.apiArr = [...this.apiArr, ...info.data.results]
-
+          console.log(this.apiArr)
       })
       .catch((error)=>{
           console.log(error)
           return error
       })
+      
 
   }
   },

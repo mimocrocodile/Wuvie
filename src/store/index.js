@@ -7,7 +7,7 @@ export default createStore({
   state: ()=> {
    return {
     searchString: "",
-    searchApi: []
+    searchApi: [],
   }
   },
   plugins:[createdPersistedState()],
@@ -20,18 +20,19 @@ export default createStore({
     }
   },
   actions: {
-    async fetchMovies(ctx, inputString, page){
-      console.log(ctx, inputString, page)
-      const res = await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+inputString+"&page="+page)
+     async fetchMovies(ctx, payload){
+      let res = []
+       await axios.get("https://api.themoviedb.org/3/search/movie?sort_by=vote_average.desc&api_key=788d8d340536c97e76b580d97ee6c8cc&query="+payload.title+"&page="+payload.pageNumb)
       .then(info=>{
           console.log(info)
-          return info.data.results
+          res = info.data.results
       })
       .catch(error=>{
           console.log(error)
       })
 
       ctx.commit('updateMovieList', res)
+      ctx.commit('ChangeSearch', payload.title)
     }
   },
   mutations: {
@@ -39,7 +40,7 @@ export default createStore({
       state.searchString = newSearch
     },
     updateMovieList(state, res){
-      state.searchApi = res
+      state.searchApi= [...state.searchApi, ...res]
     },
     clearSearch(state){
       state.searchApi = []

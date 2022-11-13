@@ -12,9 +12,7 @@
 
             </div>
         </div>
-
         </div>
-
         <div ref="observer" class="observer"></div>
     </div>
 </template>
@@ -22,23 +20,33 @@
 <script>
 import {mapActions} from 'vuex'
 export default{
-
+    props:{
+        flag: String,
+        name: String,
+        page: String,
+    },
     data(){
         return{
             searchResult: [],
             totalPages: 0,
             relatedMovies: Object,
             apiImg: "https://image.tmdb.org/t/p/original/",
-            page: 0,
             inputString: "",
-            changer:0
+            changer:0,
+            newPage: this.page
         }
     },
-    props:{
-        flag: String,
-        name: String,
-    },
+   
     methods:{
+        ...mapActions(["fetchMovies"]),
+        getVuex: function(){
+            console.log("newPage", this.newPage)
+            const payload = {
+                title: this.name,
+                pageNumb: this.newPage
+            }
+            this.fetchMovies(payload)
+        },
         //  getBest: async function(){
         //     this.page++
         //     this.searchResult = [...this.searchResult, ...response]
@@ -49,7 +57,7 @@ export default{
         //     this.page = 0
         //     this.getBest()
         // },
-        ...mapActions(["fetchMovies"])
+       
 
     },
     watch:{
@@ -65,17 +73,16 @@ export default{
             return this.$store.getters.getMovies;
         }
     },
-    async mounted(){
-        console.log(this.$store.state.searchString)
+     mounted(){
+        console.log(this.newPage)
         const options = {
         rootMargin: '0px',
         threshold: 1.0
         }
         const callback = (entries, observer) => {
         if(entries[0].isIntersecting){
-            this.page++
-            console.log(this.page)
-            this.fetchMovies(this.name, this.page)
+            this.newPage++
+            this.getVuex()
 }
         };
 

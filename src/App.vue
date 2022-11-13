@@ -25,7 +25,8 @@ export default({
  data(){
     return{
       searchRequest: this.$store.state.searchString,
-      clickCount: 0
+      clickCount: 0,
+      pageHeader: 1
     }
   },
   methods:{
@@ -33,11 +34,16 @@ export default({
 
     show: function(){
       this.$store.commit('clearSearch')
-      this.fetchMovies(this.searchRequest, 1)
+      console.log(this.searchRequest)
+      const payload = {
+                title: this.searchRequest,
+                pageNumb: this.pageHeader
+            }
+      this.fetchMovies(payload)
       this.clickCount++
-      // this.$store.commit('ChangeSearch', this.searchRequest)
-      this.$router.push({name: 'searchPage', params: {name: this.searchRequest, flag: this.clickCount}})
-      console.log(this.clickCount)
+      console.log('pageHeader', this.pageHeader)
+      this.$router.push({name: 'searchPage', params: {name: this.searchRequest, flag: this.clickCount, page: this.pageHeader}})
+    
     }
   }
 })
