@@ -5,7 +5,7 @@
         <div class="poster">
             <img :src="moviePoster + movie.poster_path" alt="">
         </div>
-        <div class="info">
+        <!-- <div class="info">
             <h1>{{movie.title}}</h1>
             <p>{{movie.release_date}}</p>
             <p>{{movie.overview}}</p>
@@ -26,7 +26,7 @@
                 <router-link :to="{name: 'personalpage', params: {id: name.id}}" ><span >{{name.name}}</span></router-link>
             </div>
 
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -46,7 +46,8 @@ export default {
         return{
         getData: "https://api.themoviedb.org/3/movie/"+this.id+"?api_key=788d8d340536c97e76b580d97ee6c8cc&language=en-US",
 
-        movie: Object,
+        movie: [],
+        movies: [],
         cast: Object,
         crew: Object,
         movieVideo: String,
@@ -57,32 +58,34 @@ export default {
     },
 
     async mounted(){
-    this.cast = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
-    .then((info)=>{
-        console.log(info)
-        return info.data.cast
-    })
-    .catch((error)=>{
-        console.log(error)
-    })
-    this.cast = this.cast.splice(0, 20)
-    this.crew = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
-    .then((info)=>{
-        return info.data.crew
-    })
-    .catch((error)=>{
-        console.log(error)
-    })
-
-     this.movie = await axios.get(this.getData)
-    .then((info)=>{
-        console.log(info)
-      return info.data
-     })
-     .catch((error)=>{
-          console.log(error)
-          return error
-    })
+    // this.cast = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
+    // .then((info)=>{
+    //     console.log(info)
+    //     return info.data.cast
+    // })
+    // .catch((error)=>{
+    //     console.log(error)
+    // })
+    // this.cast = this.cast.splice(0, 20)
+    // this.crew = await axios.get("https://api.themoviedb.org/3/movie/"+this.id+"/credits?api_key=788d8d340536c97e76b580d97ee6c8cc")
+    // .then((info)=>{
+    //     return info.data.crew
+    // })
+    // .catch((error)=>{
+    //     console.log(error)
+    // })
+    this.movies = this.$store.getters.getInfo;
+    this.movie = this.movies[this.id]
+    console.log("movie", this.id)
+//  this.movie = await axios.get(this.getData)
+    // .then((info)=>{
+    //     console.log(info)
+    //   return info.data
+    //  })
+    //  .catch((error)=>{
+    //       console.log(error)
+    //       return error
+    // })
 
   }
 

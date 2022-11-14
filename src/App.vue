@@ -26,7 +26,7 @@ export default({
     return{
       searchRequest: this.$store.state.searchString,
       clickCount: 0,
-      pageHeader: 1
+      pageHeader: 0
     }
   },
   methods:{
@@ -34,16 +34,18 @@ export default({
 
     show: function(){
       this.$store.commit('clearSearch')
+      this.$store.commit('zero')
       console.log(this.searchRequest)
-      const payload = {
-                title: this.searchRequest,
-                pageNumb: this.pageHeader
-            }
-      this.fetchMovies(payload)
+      // const payload = {
+      //           title: this.searchRequest,
+      //           pageNumb: this.pageHeader
+      //       }
+      // this.fetchMovies(payload)
       this.clickCount++
+      console.log("clickCount", this.clickCount)
       console.log('pageHeader', this.pageHeader)
       this.$router.push({name: 'searchPage', params: {name: this.searchRequest, flag: this.clickCount, page: this.pageHeader}})
-    
+
     }
   }
 })
@@ -69,6 +71,7 @@ p, a, h1{
 header{
   width: 100%;
   background-color: #301B28;
+  position: fixed;
   padding: 30px 0;
   display: flex;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 1);

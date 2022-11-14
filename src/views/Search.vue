@@ -6,7 +6,7 @@
             <div class="search-result" v-for="item, id in listMovies" :key="id">
                 <img :src="apiImg+item.poster_path" class="search-img" alt="">
                 <div class="search-info">
-                    <router-link :to="{name: 'mpage', params: {id: item.id}}" class="search-title">{{id}} {{item.title}}</router-link>
+                    <router-link :to="{name: 'mpage', params: {id: id}}" class="search-title">{{id}} {{item.title}}</router-link>
                     <p>{{item.overview}}</p>
                 </div>
 
@@ -33,31 +33,28 @@ export default{
             apiImg: "https://image.tmdb.org/t/p/original/",
             inputString: "",
             changer:0,
-            newPage: this.page
+            newPage: ''
         }
     },
-   
+
     methods:{
         ...mapActions(["fetchMovies"]),
+        getPage(){
+            this.newPage = this.$store.getters.getPage;
+        },
         getVuex: function(){
-            console.log("newPage", this.newPage)
+
+              this.$store.commit("zeroPlus")
+               console.log("newPage", this.newPage)
             const payload = {
                 title: this.name,
                 pageNumb: this.newPage
             }
+
             this.fetchMovies(payload)
         },
-        //  getBest: async function(){
-        //     this.page++
-        //     this.searchResult = [...this.searchResult, ...response]
-        //     },
-        // refresh: function (){
-        //     this.changer += 1
-        //     this.searchResult = []
-        //     this.page = 0
-        //     this.getBest()
-        // },
-       
+
+
 
     },
     watch:{
@@ -71,17 +68,18 @@ export default{
     computed:{
         listMovies(){
             return this.$store.getters.getMovies;
-        }
+        },
+
     },
      mounted(){
         console.log(this.newPage)
         const options = {
-        rootMargin: '0px',
-        threshold: 1.0
+            rootMargin: '0px',
+            threshold: 1.0
         }
         const callback = (entries, observer) => {
         if(entries[0].isIntersecting){
-            this.newPage++
+            this.getPage()
             this.getVuex()
 }
         };

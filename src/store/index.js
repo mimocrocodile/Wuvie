@@ -8,6 +8,7 @@ export default createStore({
    return {
     searchString: "",
     searchApi: [],
+    page: String
   }
   },
   plugins:[createdPersistedState()],
@@ -16,6 +17,12 @@ export default createStore({
       return state.searchString
     },
     getMovies(state){
+      return state.searchApi
+    },
+    getPage(state){
+      return state.page
+    },
+    getInfo(state){
       return state.searchApi
     }
   },
@@ -33,6 +40,7 @@ export default createStore({
 
       ctx.commit('updateMovieList', res)
       ctx.commit('ChangeSearch', payload.title)
+
     }
   },
   mutations: {
@@ -41,10 +49,18 @@ export default createStore({
     },
     updateMovieList(state, res){
       state.searchApi= [...state.searchApi, ...res]
+
     },
     clearSearch(state){
       state.searchApi = []
-    }
+    },
+    zero(state){
+      state.page = 1
+    },
+    zeroPlus(state){
+      state.page++
+    },
+
   },
 
   modules: {
