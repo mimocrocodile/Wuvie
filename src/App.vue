@@ -7,6 +7,7 @@
   <header>
     <div>
       <a href="/">Wuvie</a>
+      <router-link :to="{name: 'ActorsPage'}">Actors</router-link>
       <form action="/search" @submit.prevent >
         <input type="text" class="search" v-model="searchRequest" v-on:keyup.enter="show" >
       </form>
@@ -73,6 +74,7 @@ header{
   background-color: #301B28;
   position: fixed;
   padding: 30px 0;
+  z-index: 10;
   display: flex;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
 }

@@ -5,6 +5,9 @@ import PersonalPage from "../views/PersonalPage.vue"
 import ContactView from "../views/ContactView.vue"
 import Search from "../views/Search.vue"
 import Trailer from "../views/Trailers.vue"
+import ActorsPage from "../views/ActorsPage.vue"
+import Actor from "../views/Actor.vue"
+import Movie from "../views/Movie.vue"
 const routes = [
   {
     path: '/',
@@ -24,18 +27,18 @@ const routes = [
     name: 'contact',
     component: ContactView
   },
-  {
-    path: '/movie-page/:id',
-    name: 'mpage',
-    props: true,
-    component: MoviePage
-  },
-  {
-    path: '/personal-page/:id',
-    name: 'personalpage',
-    props: true,
-    component: PersonalPage
-  },
+  // {
+  //   path: '/movie-page/:id',
+  //   name: 'mpage',
+  //   props: true,
+  //   component: MoviePage
+  // },
+  // {
+  //   path: '/personal-page/:id',
+  //   name: 'personalpage',
+  //   props: true,
+  //   component: PersonalPage
+  // },
   {
     path: '/search/:name',
     name: 'searchPage',
@@ -47,6 +50,24 @@ const routes = [
     name: 'TrailerPage',
     props: true,
     component: Trailer
+  },
+  {
+    path: '/actors',
+    name: 'ActorsPage',
+    props: true,
+    component: ActorsPage
+  },
+  {
+    path: '/actor/:id',
+    name: 'ActorPage',
+    props: true,
+    component: Actor
+  },
+  {
+    path: '/movie/:id',
+    name: 'MoviePage',
+    props: true,
+    component: Movie,
   }
 ]
 

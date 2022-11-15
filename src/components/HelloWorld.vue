@@ -4,12 +4,12 @@
 
    <div class="card" v-for="item in api" :key="item.id">
     <div class="card__img">
-      <router-link :to="{name: 'mpage', params: {id: item.id, moviePoster: apiImg}}" >
+      <router-link :to="{name: 'MoviePage', params: {id: item.id}}" >
           <img :src="apiImg+item.poster_path" alt="">
       </router-link>
     </div>
     <div class="card__bottom">
-       <router-link :to="{name: 'mpage', params: {id: item.id, moviePoster: apiImg}}" >{{item.title}}</router-link>
+       <router-link :to="{name: 'MoviePage', params: {id: item.id}}" >{{item.title}}</router-link>
        <p>{{item.imdb_id}}</p>
       <p class="card__grade">{{item.vote_average}}</p>
     </div>
