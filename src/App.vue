@@ -4,24 +4,50 @@
     <router-link to="/about">About</router-link> |
     <router-link to="/contact">Contact</router-link>
   </nav> -->
-  <header>
-    <div>
-      <a href="/">Wuvie</a>
-      <router-link :to="{name: 'ActorsPage'}">Actors</router-link>
-      <form action="/search" @submit.prevent >
-        <input type="text" class="search" v-model="searchRequest" v-on:keyup.enter="show" >
-      </form>
-    </div>
+  <div class="main-container">
+      <div class="sidebar">
+        <div class="logo"></div>
+        <div class="sidebar-category">
+          <p class="sidebar-title">Menu</p>
+          <a href="/">Home</a>
+          <a href="/">Discovery</a>
+          <a href="/">Comming soon</a>
+        </div>
+        <div class="sidebar-category">
+          <p class="sidebar-title">Socials</p>
+          <a href="/">Home</a>
+          <a href="/">Discovery</a>
+          <a href="/">Comming soon</a>
+        </div>
+        <div class="sidebar-category">
+          <p class="sidebar-title">General</p>
+          <a href="/">Settings</a>
+          <a href="/">Log out</a>
+        </div>
+        <!-- <router-link :to="{name: 'ActorsPage'}">Actors</router-link> -->
+      </div>
+      <div class="center-container">
+        <router-view/>
+      </div>
 
-  </header>
+      <div class="sidebar">
+        <form action="/search" @submit.prevent >
+          <input type="text" placeholder="Search" class="search" v-model="searchRequest" v-on:keyup.enter="show" >
+        </form>
 
-  <router-view/>
+      </div>
+
+
+   </div>
 </template>
 
 
 <script>
 import {mapActions} from 'vuex'
+
 export default({
+
+
 
  data(){
     return{
@@ -54,6 +80,9 @@ export default({
 
 
 <style lang="scss">
+body{
+  background-color: #191A1F;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -61,38 +90,53 @@ export default({
   text-align: center;
   color: #2c3e50;
 }
-body{
-  background-color: #31242c;
-
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 p, a, h1{
   color: white;
   text-decoration: none;
 }
-header{
-  width: 100%;
-  background-color: #301B28;
-  position: fixed;
-  padding: 30px 0;
-  z-index: 10;
-  display: flex;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+.main-container{
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  padding: 60px 0;
+  gap: 0 70px;
 }
-header a{
-  color: white;
-  font-size: 50px;
+.sidebar{
 
-  font-weight: 700;
-  text-decoration: none;
 }
-header div{
-  width: 1400px;
-  margin: 0 auto;
-  display: flex;
+.sidebar-category{
+  display: grid;
+  gap: 40px;
+  margin-top: 60px;
 }
-form{
-  margin-left: auto;
-  margin-right: 100px;
+.sidebar-category a, .sidebar-category p{
+  font-size: 20px;
+  line-height: 24px;
+  text-align: left;
+  padding-left: 60px;
+  opacity: .3;
+}
+.sidebar-category p{
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.center-container{
+
+}
+.search{
+  background-color: transparent;
+  border: 1px solid #626470;
+  border-radius:30px;
+  padding: 15px 0;
+  padding-left: 30px;
+  font-size: 20px;
+  line-height: 24px;
+  color: white;
 }
 nav {
   padding: 30px;
@@ -106,4 +150,5 @@ nav {
     }
   }
 }
+
 </style>

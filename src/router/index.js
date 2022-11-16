@@ -2,10 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MoviePage from "../views/MoviePage.vue"
 import PersonalPage from "../views/PersonalPage.vue"
-import ContactView from "../views/ContactView.vue"
 import Search from "../views/Search.vue"
 import Trailer from "../views/Trailers.vue"
-import ActorsPage from "../views/ActorsPage.vue"
+// import ActorsPage from "../views/ActorsPage.vue"
 import Actor from "../views/Actor.vue"
 import Movie from "../views/Movie.vue"
 const routes = [
@@ -22,11 +21,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
-  {
-    path: '/contact',
-    name: 'contact',
-    component: ContactView
-  },
+
+  // {
+  //   path: '/contact',
+  //   name: 'contact',
+  //   component: ContactView
+  // },
   // {
   //   path: '/movie-page/:id',
   //   name: 'mpage',
@@ -55,7 +55,8 @@ const routes = [
     path: '/actors',
     name: 'ActorsPage',
     props: true,
-    component: ActorsPage
+    component: () => import(/* webpackChunkName: "ActorsPage" */ '../views/ActorsPage.vue')
+    // component: ActorsPage
   },
   {
     path: '/actor/:id',

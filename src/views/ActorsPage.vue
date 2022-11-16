@@ -62,15 +62,14 @@ export default {
     width: 1280px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    padding-top: 140px;
 }
 .actor-bottom{
     position: absolute;
     bottom: 0;
 }
-.actor-bottom p{
+.actor-bottom a{
     font-size: 20px;
     line-height: 32px;
     text-shadow: 1px 1px 2px black;

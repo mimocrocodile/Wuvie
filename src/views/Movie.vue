@@ -41,6 +41,7 @@ export default {
         .catch((error)=>{
             console.log(error)
         })
+        this.apiCastArr = this.apiCastArr.splice(0, 19)
 
     }
 
